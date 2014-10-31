@@ -3,9 +3,72 @@
   <head>
     <title>Hello World!</title>
   </head>
-  <body>
+<body onkeydown="onKeyDown(event)">
+
     <h1>Hello World!</h1>
-    We are using node.js <script>document.write(process.version)</script>
-    and atom-shell <script>document.write(process.versions['atom-shell'])</script>.
-  </body>
+    We are using node.js
+    <script>document.write(process.version)</script>
+    and atom-shell
+    <script>document.write(process.versions['atom-shell'])</script>.
+
+    <h2>Test value: <span id="value"> 0 </span></h2>
+    Loop Count: <input type="number" id="loopCount" value="999999"/>
+
+    <script>
+        var remote = require('remote');
+        var globalObject = remote.getGlobal('globalobject');
+
+        var value = 0;
+        var valueElement = document.getElementById('value');
+        var inputElement = document.getElementById('loopCount');
+
+        var locked = false;
+
+        function onKeyDown(event) {
+            if (locked) {
+                console.error('Already locked, see the call stack please');
+                //return;
+            }
+            else {
+                // LOCK !!
+                locked = true;
+            }
+
+            switch (event.which) {
+                // key-up
+                case 38:
+                    value = globalObject.add(value);
+                    //value += 1;
+                    valueElement.innerText = value;
+
+                    event.preventDefault();
+                    event.stopPropagation();
+                    break;
+
+                // key-down
+                case 40:
+                    value = globalObject.sub(value);
+                    //value -= 1;
+                    valueElement.innerText = value;
+
+                    event.preventDefault();
+                    event.stopPropagation();
+                    break;
+            }
+
+            // UNLOCK !!
+            locked = false;
+        }
+
+        var ipc = require('ipc');
+
+        // THIS RESPONSE WILL BLOCK THE WEB!!!
+        ipc.on('block', function () {
+            for (var i = 0; i < inputElement.value; ++i) {
+            }
+        });
+
+    </script>
+
+</body>
 </html>

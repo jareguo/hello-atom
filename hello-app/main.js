@@ -23,6 +23,8 @@ app.on('ready', function() {
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
 
+  mainWindow.openDevTools();
+
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
@@ -31,3 +33,18 @@ app.on('ready', function() {
     mainWindow = null;
   });
 });
+
+
+
+global['globalobject'] = {
+    add: function (value) {
+        // THIS ASYNCHRONOUS MESSAGE WILL BLOCK THE WEB !!!
+        mainWindow.webContents.send('block');
+        return value + 1;
+    },
+    sub: function (value) {
+        // THIS ASYNCHRONOUS MESSAGE WILL BLOCK THE WEB !!!
+        mainWindow.webContents.send('block');
+        return value - 1;
+    }
+};
