@@ -37,8 +37,8 @@
             switch (event.which) {
                 // key-up
                 case 38:
-                    value = globalObject.add(value);
-                    //value += 1;
+                    // += 1;
+                    value = globalObject.add(value, inputElement.value);
                     valueElement.innerText = value;
 
                     event.preventDefault();
@@ -47,8 +47,8 @@
 
                 // key-down
                 case 40:
-                    value = globalObject.sub(value);
-                    //value -= 1;
+                    // -= 1;
+                    value = globalObject.sub(value, inputElement.value);
                     valueElement.innerText = value;
 
                     event.preventDefault();
@@ -59,14 +59,6 @@
             // UNLOCK !!
             locked = false;
         }
-
-        var ipc = require('ipc');
-
-        // THIS RESPONSE WILL BLOCK THE WEB!!!
-        ipc.on('block', function () {
-            for (var i = 0; i < inputElement.value; ++i) {
-            }
-        });
 
     </script>
 

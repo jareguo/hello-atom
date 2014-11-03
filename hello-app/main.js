@@ -37,14 +37,14 @@ app.on('ready', function() {
 
 
 global['globalobject'] = {
-    add: function (value) {
-        // THIS ASYNCHRONOUS MESSAGE WILL BLOCK THE WEB !!!
-        mainWindow.webContents.send('block');
+    add: function (value, loopCount) {
+        for (var i = 0; i < loopCount; ++i) {
+        }
         return value + 1;
     },
-    sub: function (value) {
-        // THIS ASYNCHRONOUS MESSAGE WILL BLOCK THE WEB !!!
-        mainWindow.webContents.send('block');
+    sub: function (value, loopCount) {
+        for (var i = 0; i < loopCount; ++i) {
+        }
         return value - 1;
     }
 };
